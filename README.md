@@ -144,9 +144,17 @@ Scans both persona templates for English acronyms, formulas, Greek letters, and 
 
 ---
 
-## Origin
+## A prompt from 3 a.m.
 
-This is what happens when graduate students notice that a literal 80-year-old grandma — illiterate, no domain background, no patience for jargon — is a stronger forcing function for clear explanations than any prompt-engineering trick. Pretending to be one's own grandmother turns out to be, in this very specific case, a productivity hack.
+Roughly what a fully-committed user looks like in the wild:
+
+> The grandma is fake. The 80-year-old part is fake. Only the paper being incomprehensible is real.
+>
+> I'm a grad student. Third cup of coffee. My advisor wants me to walk her through this paper at 10 a.m. tomorrow. I'm on page 12, still don't get page 1.
+>
+> So I've decided to pretend to be my grandma.
+>
+> Does my grandma have any SCI publications? No. But she's still alive at 78. **That's the answer.**
 
 ---
 
