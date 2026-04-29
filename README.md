@@ -20,6 +20,20 @@ The grandson is fake. The grandma might be too. Only the papers are real.
 
 ---
 
+## A prompt from 3 a.m.
+
+Roughly what a fully-committed user looks like in the wild:
+
+> The grandma is fake. The 80-year-old part is fake. Only the paper being incomprehensible is real.
+>
+> I'm a grad student. Third cup of coffee. My advisor wants me to walk her through this paper at 10 a.m. tomorrow. I'm on page 12, still don't get page 1.
+>
+> So I've decided to pretend to be my grandma.
+>
+> Does my grandma have any SCI publications? No. But she's still alive at 78. **That's the answer.**
+
+---
+
 ## How it works
 
 Five stages, in order:
@@ -141,20 +155,6 @@ Scans both persona templates for English acronyms, formulas, Greek letters, and 
 | Codex CLI | `AGENTS.md` content reviewed by hand; per-project install path recommended |
 | Gemini CLI | Manifest follows the official format; not yet tested end-to-end |
 | Cursor | Reads `AGENTS.md` natively; not yet tested end-to-end |
-
----
-
-## A prompt from 3 a.m.
-
-Roughly what a fully-committed user looks like in the wild:
-
-> The grandma is fake. The 80-year-old part is fake. Only the paper being incomprehensible is real.
->
-> I'm a grad student. Third cup of coffee. My advisor wants me to walk her through this paper at 10 a.m. tomorrow. I'm on page 12, still don't get page 1.
->
-> So I've decided to pretend to be my grandma.
->
-> Does my grandma have any SCI publications? No. But she's still alive at 78. **That's the answer.**
 
 ---
 
