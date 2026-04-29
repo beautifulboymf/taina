@@ -1,0 +1,6 @@
+{
+  "name": "taina-explainer",
+  "description": "Grandson explaining hard text to grandma using plain language, life metaphors, and Socratic Q&A. Bilingual (北京太奶 + London Nan).",
+  "version": "1.4.0",
+  "contextFileName": "GEMINI.md"
+}
