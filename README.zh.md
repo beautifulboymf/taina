@@ -76,24 +76,24 @@ mkdir -p ~/.claude/commands && cp commands/taina.md ~/.claude/commands/
 
 ### Codex CLI / Cursor
 
-仓库根目录的 `AGENTS.md` 会被 Codex 和 Cursor 自动加载。
+仓库根目录的 `AGENTS.md` 已经把整套 skill（SKILL.md + 两份 persona card）inline 进去，Codex CLI 和 Cursor 打开仓库时会自动加载。
 
-项目级（推荐）：
+项目级安装：
 
 ```bash
 git clone https://github.com/beautifulboymf/taina.git
 cd taina   # AGENTS.md 自动作为上下文加载
 ```
 
-全局（追加到全局 AGENTS.md）：
+全局安装（把 inlined 后的 skill 追加到全局 AGENTS.md）：
 
 ```bash
 git clone https://github.com/beautifulboymf/taina.git /tmp/taina
 mkdir -p ~/.codex
-cat /tmp/taina/taina-explainer/SKILL.md >> ~/.codex/AGENTS.md
-cat /tmp/taina/taina-explainer/persona-card.zh.md >> ~/.codex/AGENTS.md
-cat /tmp/taina/taina-explainer/persona-card.en.md >> ~/.codex/AGENTS.md
+cat /tmp/taina/AGENTS.md >> ~/.codex/AGENTS.md
 ```
+
+> `AGENTS.md` 由 `scripts/build-agents.sh` 从 `taina-explainer/{SKILL.md,persona-card.*.md}` 生成。改 skill 内容请改源文件，然后重跑脚本——**别**直接编辑 `AGENTS.md`。
 
 ### Gemini CLI
 
@@ -102,6 +102,52 @@ gemini extensions install https://github.com/beautifulboymf/taina.git
 ```
 
 或者手动 clone 到 `~/.gemini/extensions/taina-explainer/`。
+
+---
+
+## 可选：基于 hook 的状态保持
+
+只靠 SKILL.md 散文约束模型，长对话里口吻可能飘。把 `hooks/taina-mode-tracker.py` 注册成 pre-prompt hook 就能拿到确定性强化：检测到激活短语时建一个 flag 文件，检测到退出短语时删掉；flag 在的时候每回合往上下文里塞一句 `TAINA MODE ACTIVE` 提醒。
+
+脚本是单文件、零依赖、纯 Python。把它放到一个稳定路径，然后按 CLI 注册：
+
+**Claude Code** — 加到 `~/.claude/settings.json`：
+
+```json
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      { "type": "command", "command": "python3 /absolute/path/to/taina-mode-tracker.py" }
+    ]
+  }
+}
+```
+
+**Codex CLI** — 加到 `~/.codex/config.toml`：
+
+```toml
+[[hooks.UserPromptSubmit]]
+command = ["python3", "/absolute/path/to/taina-mode-tracker.py"]
+```
+
+**Gemini CLI** — 加到 `~/.gemini/settings.json`（注意 hook 事件名不一样）：
+
+```json
+{
+  "hooks": {
+    "BeforeAgent": [
+      {
+        "command": ["python3", "/absolute/path/to/taina-mode-tracker.py"],
+        "env": { "TAINA_HOOK_EVENT": "BeforeAgent" }
+      }
+    ]
+  }
+}
+```
+
+**Cursor** — 暂不支持。Cursor 1.7 的 `beforeSubmitPrompt` hook 是 observe-only，返回的 context 会被忽略，没法做强化注入。Cursor 用户只能走 prose-only 路径。
+
+flag 文件默认是 `~/.taina-active`，可以用 `TAINA_FLAG` 环境变量改路径。各 CLI 的 hook schema 可能随版本调整——注册失败时拿对应 CLI 官方 hook 文档跟上面的片段对一下。
 
 ---
 
@@ -129,6 +175,23 @@ skill 在用户消息里出现以下任一短语、且伴有难懂内容时自�
 用英文讲 / in English / 用中文 / in Chinese
 ```
 
+### 退出
+
+退出后当前会话余下回合 AI 用默认口吻回应；想重新进入再用上面的入口短语即可。
+
+| 北京太奶 (中文) | London Nan (English) |
+|----------------|----------------------|
+| 退出太奶 | exit taina |
+| 正常聊 / 正常说话 | back to normal |
+| 不装了 | drop the granny |
+| 回到正常 | normal mode |
+
+显式：
+
+```
+/taina exit
+```
+
 ---
 
 ## 自定义口吻
@@ -147,14 +210,16 @@ skill 在用户消息里出现以下任一短语、且伴有难懂内容时自�
 
 ---
 
-## 兼容性
+## CLI 支持矩阵
 
-| CLI | 状态 |
-|-----|------|
-| Claude Code | 已端到端跑通 |
-| Codex CLI | `AGENTS.md` 内容已人工对照；建议优先走"项目级"装法 |
-| Gemini CLI | 扩展 manifest 是按官方格式写的；尚未在真机端到端跑过 |
-| Cursor | Cursor 原生读 `AGENTS.md`；尚未在真机端到端跑过 |
+| CLI | 加载 skill | Hook 强化 |
+|-----|-----------|-----------|
+| Claude Code | skill 目录放在 `~/.claude/skills/taina-explainer/`；斜杠命令放在 `~/.claude/commands/taina.md` | `UserPromptSubmit` hook |
+| Codex CLI | 根目录 `AGENTS.md`（已完整 inline skill）会被自动作为项目上下文加载 | `UserPromptSubmit` hook |
+| Gemini CLI | `gemini-extension.json` manifest + `GEMINI.md` 的 import 指令 | `BeforeAgent` hook |
+| Cursor | 根目录 `AGENTS.md` 会被原生读取为项目上下文 | 不支持（pre-prompt hook 是 observe-only） |
+
+各平台覆盖度可能有差异——遇到加载不上的情况请提 issue。
 
 ---
 

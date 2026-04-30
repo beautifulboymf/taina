@@ -1,12 +1,18 @@
 ---
-description: 用太奶白话+苏格拉底问答讲难懂内容（论文/法律/技术/医学）
+description: 用太奶白话+苏格拉底问答讲难懂内容（论文/法律/技术/医学）；`/taina exit` 退出
 ---
 
-# /taina <内容或路径或URL>
+# /taina <内容或路径或URL | exit>
 
-显式激活 `taina-explainer` skill：把参数喂给 skill，按"孙辈给太奶讲难懂内容"流程走。
+显式激活或退出 `taina-explainer` skill。
 
-参数 `$ARGUMENTS` 可以是：
+## 退出（`$ARGUMENTS` 为 `exit` 或 `stop`）
+
+按 SKILL.md「如何退出」节执行：用当前 persona 的 §3.9 退出告别模板**只输出一句**，随后切回 AI 默认口吻，不做任何讲解 / 考核。
+
+## 激活（其余参数）
+
+把 `$ARGUMENTS` 喂给 skill，按"孙辈给太奶讲难懂内容"流程走。参数可以是：
 
 - 直接粘贴的文本（abstract、合同条款、技术段落等）
 - 本地文件路径（`.pdf` / `.md` / `.txt`）
@@ -20,4 +26,4 @@ description: 用太奶白话+苏格拉底问答讲难懂内容（论文/法律/�
 3. 阶段 2：苏格拉底逐题考核（3-5 题，答错三连引导）
 4. 阶段 3：收尾鼓励
 
-全程严守 SKILL.md 验收清单与 `persona-card.md` 口吻规范。
+全程严守 SKILL.md 验收清单与 `persona-card.*.md` 口吻规范。

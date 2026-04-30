@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Lint guard for persona-card templates (sections 3.5/3.6/3.7).
+# Lint guard for persona-card templates (sections 3.5/3.6/3.7/3.9).
 #
 # Usage: ./scripts/lint-persona.sh [zh|en|all]
 #   zh  — lint persona-card.zh.md (Beijing太奶)
@@ -17,7 +17,7 @@
 # Sections excluded from extraction (banned tokens are legitimate there):
 #   §3.3 (forbidden list — names banned tokens by definition)
 #   §3.8 (inner-eye voice — used in stage 1.5, where jargon is allowed)
-# §3.8 is excluded by construction since the regex matches only `^## 3\.[567]`.
+# §3.8 is excluded by construction since the regex matches only `^## 3\.[5679]`.
 
 set -euo pipefail
 
@@ -32,13 +32,13 @@ case "$MODE" in
     ;;
 esac
 
-# Extract sections 3.5/3.6/3.7 from a file.
+# Extract sections 3.5/3.6/3.7/3.9 from a file.
 extract_templates() {
   local file="$1"
   awk '
-    /^## 3\.[567] / {flag=1; print; next}
-    /^## /          {flag=0}
-    flag            {print}
+    /^## 3\.[5679] / {flag=1; print; next}
+    /^## /           {flag=0}
+    flag             {print}
   ' "$file"
 }
 
@@ -53,7 +53,7 @@ lint_zh() {
   local templates
   templates=$(extract_templates "$file")
   if [ -z "$templates" ]; then
-    echo "FAIL: no §3.5/3.6/3.7 sections found in $file"
+    echo "FAIL: no §3.5/3.6/3.7/3.9 sections found in $file"
     return 1
   fi
 
@@ -61,7 +61,7 @@ lint_zh() {
 
   # 1. English 3+ uppercase acronyms (no \b — fails on Chinese-embedded text on BSD grep)
   if echo "$templates" | grep -E '[A-Z]{3,}'; then
-    echo "FAIL [zh]: English acronyms found in 3.5/3.6/3.7 templates"
+    echo "FAIL [zh]: English acronyms found in 3.5/3.6/3.7/3.9 templates"
     exit_code=1
   fi
 
@@ -96,7 +96,7 @@ lint_en() {
   local templates
   templates=$(extract_templates "$file")
   if [ -z "$templates" ]; then
-    echo "FAIL: no §3.5/3.6/3.7 sections found in $file"
+    echo "FAIL: no §3.5/3.6/3.7/3.9 sections found in $file"
     return 1
   fi
 
