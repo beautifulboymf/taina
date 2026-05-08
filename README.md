@@ -1,4 +1,4 @@
-# 👵 taina
+# 👵 taina: Faking Granny Is All You Need
 
 <p align="center">
   <img src="assets/grandma.png" alt="Cartoon grandma reading a paper" width="320" />
