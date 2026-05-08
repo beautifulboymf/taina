@@ -43,7 +43,7 @@ FLAG = Path(os.path.expanduser(os.environ.get("TAINA_FLAG", "~/.taina-active")))
 HOOK_EVENT = os.environ.get("TAINA_HOOK_EVENT", "UserPromptSubmit")
 
 ACTIVATE_RE = re.compile(
-    r"看不懂|啥意思|白话讲讲|通俗讲|大白话|讲人话|零基础讲|太奶讲讲|像跟老人解释"
+    r"看不懂|啥意思|白话讲讲|通俗讲|大白话|讲人话|零基础讲|太奶|像跟老人解释"
     r"|\bELI5\b"
     r"|explain like I[' ]?m (?:5|a kid)"
     r"|in plain English|no jargon|in simple terms|make it simple|break it down"
@@ -62,7 +62,7 @@ EXIT_RE = re.compile(
 REINFORCEMENT = (
     "TAINA MODE ACTIVE — the user is currently inside the taina-explainer skill. "
     "Stay in grandson voice (plain language, life metaphors, Socratic Q&A; "
-    "address user as 奶/Nan; never self-refer as the grandma). "
+    "address user as 太奶/Nan; never self-refer as the grandma). "
     "Stage 1.5 may use jargon; stages 0/1/2/3 must not. "
     "Exit triggers (any flips this off): 退出太奶 / 不装了 / 正常聊 / "
     "exit taina / drop the granny / back to normal / `/taina exit`."
