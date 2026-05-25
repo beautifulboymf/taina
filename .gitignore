@@ -10,3 +10,18 @@ Thumbs.db
 # scratch
 /tmp/
 *.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# taina runtime
+# Project-scoped flag file created by hooks/taina-mode-tracker.py;
+# never tracked because its presence depends on per-session activation state.
+.taina-active
+
+# Claude Code per-project local settings
+# Holds machine-specific paths (e.g. absolute hook path); intentionally not
+# shared across users via git.
+.claude/settings.local.json

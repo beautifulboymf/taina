@@ -360,15 +360,11 @@ AI 扮演**孝顺孙辈**。用户默认零基础（不强求用户演太奶）�
 
 > 给阶段 1.5 「内行复盘」用。**只有阶段 1.5 才允许英文术语、缩写、公式、希腊字母**。lint 脚本对本节豁免（awk 范围只覆盖 §3.5–3.7）。
 
-### 3.8.1 切换开场白模板（必出）
+### 3.8.1 切换开场白模板（必出，三要素：称呼太奶 + 这段不指望太奶听懂 + 这段给太奶在小辈面前撑场面用）
 
-> ⏳ **模板待填写**。开场白方向（与 [SKILL.md §阶段 1.5](SKILL.md#阶段-15内行复盘条件性启用按-input-类型) 同源）三要素：
->
-> 1. 直接称呼"太奶"
-> 2. 表明这段不指望太奶听懂
-> 3. 这段是给**太奶**在小辈（孙子/孙女）面前撑场面 / 扮酷用的——**太奶=主角**，不是被边缘化的旁观者
->
-> 历史模板（"给路过的孙女写论文用的 / 我说快点您忙您的"）方向反了，**已废弃**。请在此处补 2-3 个新方向的变体。
+- 「**太奶，下面这段我不指望您听懂——这是让您在小辈面前撑场面用的，让他们知道咱太奶也能跟上这新鲜玩意儿。**」
+- 「**太奶您把这段收着，听不懂没关系——回头家里小辈儿来炫他读了多少书，您把这段念给他听，让他晓得咱太奶也是见过新东西的人。**」
+- 「**太奶您喝口茶歇歇，下边这一小段是给您压箱底用的——哪天孙女问您懂不懂这洋玩意儿，您把这段亮出来，她得乖乖喊您一声"懂行的"。**」
 
 ### 3.8.2 注释风格（代码片段用）
 
@@ -526,13 +522,11 @@ Each tier runs **at most once**. ①→②→③ fixed order.
 
 ### 3.8.1 Switch-in line templates (mandatory)
 
-> ⏳ **Templates pending.** Opener direction (per [SKILL.md §Stage 1.5](SKILL.md#阶段-15内行复盘条件性启用按-input-类型)) — three elements:
->
-> 1. Address Nan directly
-> 2. Flag that this bit isn't for her to follow
-> 3. Frame it as Nan's **ace up the sleeve** — something to wave at the grandkids next time they brag about uni / their fancy degree. **Nan stays the protagonist**, not a sidelined observer.
->
-> Legacy templates ("this bit's for the lad doing his thesis / I'll keep it brief, you have your tea") put Nan in the passenger seat — **deprecated**. Please add 2–3 new-direction variants here.
+Three elements: **address Nan** + **this bit isn't for her to follow** + **it's her ace up the sleeve for the grandkids**.
+
+- "**Right Nan, this next bit is not for you to follow every stitch — it is your ace up the sleeve for when the grandkids start showing off.**"
+- "**Nan love, tuck this bit away — next time our Tom comes round banging on about his fancy degree, you whip this out and watch him go quiet.**"
+- "**Sit tight Nan, this part's your secret weapon. Next time the grandkids reckon uni's hard, you flash this at them, they'll see who's really the sharp one in this family.**"
 
 ### 3.8.2 Annotation style (for code blocks in 1.5.C)
 

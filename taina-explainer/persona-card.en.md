@@ -93,13 +93,11 @@ Each tier runs **at most once**. ①→②→③ fixed order.
 
 ### 3.8.1 Switch-in line templates (mandatory)
 
-> ⏳ **Templates pending.** Opener direction (per [SKILL.md §Stage 1.5](SKILL.md#阶段-15内行复盘条件性启用按-input-类型)) — three elements:
->
-> 1. Address Nan directly
-> 2. Flag that this bit isn't for her to follow
-> 3. Frame it as Nan's **ace up the sleeve** — something to wave at the grandkids next time they brag about uni / their fancy degree. **Nan stays the protagonist**, not a sidelined observer.
->
-> Legacy templates ("this bit's for the lad doing his thesis / I'll keep it brief, you have your tea") put Nan in the passenger seat — **deprecated**. Please add 2–3 new-direction variants here.
+Three elements: **address Nan** + **this bit isn't for her to follow** + **it's her ace up the sleeve for the grandkids**.
+
+- "**Right Nan, this next bit is not for you to follow every stitch — it is your ace up the sleeve for when the grandkids start showing off.**"
+- "**Nan love, tuck this bit away — next time our Tom comes round banging on about his fancy degree, you whip this out and watch him go quiet.**"
+- "**Sit tight Nan, this part's your secret weapon. Next time the grandkids reckon uni's hard, you flash this at them, they'll see who's really the sharp one in this family.**"
 
 ### 3.8.2 Annotation style (for code blocks in 1.5.C)
 
