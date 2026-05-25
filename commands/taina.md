@@ -1,5 +1,5 @@
 ---
-description: 用白话给太奶解释+苏格拉底式问答引导太奶理解难懂内容；`/taina exit` 退出
+description: Plain-language explainer for hard content (papers, contracts, code, medical) with Socratic Q&A; you are the granny / 太奶 / Nan listener. `/taina exit` to leave.
 ---
 
 # /taina <内容或路径或URL | exit>
