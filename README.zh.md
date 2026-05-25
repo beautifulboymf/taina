@@ -147,7 +147,7 @@ command = ["python3", "/absolute/path/to/taina-mode-tracker.py"]
 
 **Cursor** — 暂不支持。Cursor 1.7 的 `beforeSubmitPrompt` hook 是 observe-only，返回的 context 会被忽略，没法做强化注入。Cursor 用户只能走 prose-only 路径。
 
-flag 文件默认是 `~/.taina-active`，可以用 `TAINA_FLAG` 环境变量改路径。各 CLI 的 hook schema 可能随版本调整——注册失败时拿对应 CLI 官方 hook 文档跟上面的片段对一下。
+flag 文件默认落在 CLI 当前工作目录下的 `./.taina-active`（通常就是项目根目录），不同项目之间互不污染。想改路径用 `TAINA_FLAG` 环境变量（设成 `~/.taina-active` 即可回到旧的全局模式）。如果不想把 flag 跟踪到 git，记得在 `.gitignore` 加一行 `.taina-active`。各 CLI 的 hook schema 可能随版本调整——注册失败时拿对应 CLI 官方 hook 文档跟上面的片段对一下。
 
 ---
 
@@ -155,13 +155,15 @@ flag 文件默认是 `~/.taina-active`，可以用 `TAINA_FLAG` 环境变量改�
 
 skill 在用户消息里出现以下任一短语、且伴有难懂内容时自动激活。语言路由跟着用户消息走：含汉字进 北京太奶；纯英文进 London Nan。
 
+**严格 opt-in**：skill 只在你**显式**把太奶 / granny / Nan 听众角色分配给自己、或显式调用斜杠命令时才会激活。日常澄清词（`啥意思` / `看不懂` / `ELI5` / `in plain English` / `in simple terms` / `break it down` / `like I'm 80` …）**不**触发太奶——它们是普通澄清请求，由你的默认 AI 处理。这是为了让太奶在你真正想用之前不来烦你。
+
 | 北京太奶 (中文) | London Nan (English) |
 |----------------|----------------------|
-| 看不懂 | ELI5 |
-| 白话讲讲 | explain like I'm 5 |
-| 通俗讲 / 讲人话 | in plain English |
-| 太奶讲讲 | speak to me like a granny |
-| 啥意思 | no jargon / in simple terms |
+| 给太奶讲 / 跟太奶讲 / 讲给太奶 | like I'm a granny |
+| 当我是太奶 / 当作太奶 / 当成太奶 | like I'm your nan |
+| 把我当太奶 / 把我当作太奶 / 把我当成太奶 | pretend I'm a granny / treat me like a granny |
+
+所有触发短语都保持 skill 方向：**用户 = 太奶（听众）**，**AI = 讲解者**。形如 `太奶讲讲` / `speak to me like a granny` 的句式刻意排除——它们反向把 AI 当 `太奶` 来呼，还会和 persona 输出里的 `太奶` 称呼字面自循环。
 
 显式调用：
 
@@ -215,7 +217,9 @@ skill 在用户消息里出现以下任一短语、且伴有难懂内容时自�
 | CLI | 加载 skill | Hook 强化 |
 |-----|-----------|-----------|
 | Claude Code | skill 目录放在 `~/.claude/skills/taina-explainer/`；斜杠命令放在 `~/.claude/commands/taina.md` | `UserPromptSubmit` hook |
-| Codex CLI | 根目录 `AGENTS.md`（已完整 inline skill）会被自动作为项目上下文加载 | `UserPromptSubmit` hook |
+| Codex CLI（项目上下文） | 根目录 `AGENTS.md`（已完整 inline skill）会被自动作为项目上下文加载 | `UserPromptSubmit` hook |
+| Codex CLI（官方 skill 装法） | `skills/taina-explainer/` 是自包含的 Codex skill 包，用官方 Codex skill installer 安装；支持 `$taina-explainer` 调用 | `UserPromptSubmit` hook |
+| OpenClaw | 仓库根 `SKILL.md`（`openclaw skills install git:owner/repo@ref`），或 `openclaw/taina-explainer/`（`openclaw skills install ./openclaw/taina-explainer --as taina-explainer`） | 不支持 |
 | Gemini CLI | `gemini-extension.json` manifest + `GEMINI.md` 的 import 指令 | `BeforeAgent` hook |
 | Cursor | 根目录 `AGENTS.md` 会被原生读取为项目上下文 | 不支持（pre-prompt hook 是 observe-only） |
 

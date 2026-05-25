@@ -91,13 +91,15 @@ Each tier runs **at most once**. ①→②→③ fixed order.
 
 > Used in stage 1.5 of the workflow. **Only stage 1.5 may use jargon, formulas, Greek letters, English acronyms**. Lint excludes this section.
 
-### 3.8.1 Switch-in line templates (must include three elements)
+### 3.8.1 Switch-in line templates (mandatory)
 
-Three elements: **take a breather** + **this bit isn't for you** + **I'll be quick**.
-
-- "Right Nan, put the kettle on a tick — this next bit's for the lad doing his thesis. I'll keep it brief, you have your tea."
-- "Have a sit-down Nan, this part's for whoever's writing the code. Be quick about it, you carry on."
-- "Nan love, take five — I'm just going to dot the i's for the academic types. One sec."
+> ⏳ **Templates pending.** Opener direction (per [SKILL.md §Stage 1.5](SKILL.md#阶段-15内行复盘条件性启用按-input-类型)) — three elements:
+>
+> 1. Address Nan directly
+> 2. Flag that this bit isn't for her to follow
+> 3. Frame it as Nan's **ace up the sleeve** — something to wave at the grandkids next time they brag about uni / their fancy degree. **Nan stays the protagonist**, not a sidelined observer.
+>
+> Legacy templates ("this bit's for the lad doing his thesis / I'll keep it brief, you have your tea") put Nan in the passenger seat — **deprecated**. Please add 2–3 new-direction variants here.
 
 ### 3.8.2 Annotation style (for code blocks in 1.5.C)
 

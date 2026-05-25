@@ -13,7 +13,10 @@ UserPromptSubmit, and Gemini CLI BeforeAgent):
 
 Configuration (env vars):
 
-    TAINA_FLAG       path to flag file (default: ~/.taina-active)
+    TAINA_FLAG       path to flag file (default: <cwd>/.taina-active —
+                     per-project scope, so taina mode in project A does not
+                     leak into project B; override to ~/.taina-active for the
+                     old global behaviour)
     TAINA_HOOK_EVENT name reported in hookEventName (default: UserPromptSubmit;
                      set to "BeforeAgent" when registering with Gemini CLI)
 
@@ -39,15 +42,30 @@ import re
 import sys
 from pathlib import Path
 
-FLAG = Path(os.path.expanduser(os.environ.get("TAINA_FLAG", "~/.taina-active")))
+FLAG = (
+    Path(os.path.expanduser(os.environ["TAINA_FLAG"]))
+    if "TAINA_FLAG" in os.environ
+    else Path.cwd() / ".taina-active"
+)
 HOOK_EVENT = os.environ.get("TAINA_HOOK_EVENT", "UserPromptSubmit")
 
+# Activation triggers. Deliberately strict: ONLY explicit role-assignment
+# phrases (user actively assigning the 太奶/granny/Nan role to themselves) or
+# the `/taina <content>` slash command count as activation. Generic confusion
+# phrases (啥意思 / 看不懂 / in simple terms / break it down / ELI5 …) are
+# everyday language and would cause false positives — they are intentionally
+# OUT. If the user is confused but doesn't want the granny persona, the host
+# AI handles it normally. taina is opt-in by name.
 ACTIVATE_RE = re.compile(
-    r"看不懂|啥意思|白话讲讲|通俗讲|大白话|讲人话|零基础讲|太奶|像跟老人解释"
-    r"|\bELI5\b"
-    r"|explain like I[' ]?m (?:5|a kid)"
-    r"|in plain English|no jargon|in simple terms|make it simple|break it down"
-    r"|speak to me like a granny|like I[' ]?m 80",
+    # `/taina <content>` at the start of the prompt (excluding exit/stop forms)
+    r"^/taina\s+(?!exit\b|stop\b)\S"
+    # 中文 — 显式把"太奶"角色分配给自己（句子里必含"太奶"+受话人方向词）
+    r"|给太奶讲|跟太奶讲|讲给太奶|说给太奶"
+    r"|当我是太奶|当作太奶|当成太奶|把我当(?:作|成)?太奶"
+    # English — explicit self-assignment as the granny / Nan listener
+    # (covers "I'm", "Im", "I m", "I am" contractions)
+    r"|pretend I(?:[' ]?m| am) a granny|treat me like a granny"
+    r"|like I(?:[' ]?m| am) (?:a granny|your nan)",
     re.IGNORECASE,
 )
 
@@ -61,8 +79,9 @@ EXIT_RE = re.compile(
 
 REINFORCEMENT = (
     "TAINA MODE ACTIVE — the user is currently inside the taina-explainer skill. "
-    "Stay in grandson voice (plain language, life metaphors, Socratic Q&A; "
-    "address user as 太奶/Nan; never self-refer as the grandma). "
+    "Stay in taina persona voice per persona-card.zh.md / persona-card.en.md "
+    "(plain language, life metaphors, Socratic Q&A; address user as 太奶/Nan; "
+    "AI = explainer, never self-refer as 太奶/Nan). "
     "Stage 1.5 may use jargon; stages 0/1/2/3 must not. "
     "Exit triggers (any flips this off): 退出太奶 / 不装了 / 正常聊 / "
     "exit taina / drop the granny / back to normal / `/taina exit`."

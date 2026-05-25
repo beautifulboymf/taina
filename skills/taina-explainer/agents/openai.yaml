@@ -1,0 +1,7 @@
+interface:
+  display_name: "Taina Explainer"
+  short_description: "Plain-language Taina and Nan explanations"
+  default_prompt: "Use $taina-explainer to explain this difficult material in plain language with life metaphors."
+
+policy:
+  allow_implicit_invocation: true

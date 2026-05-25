@@ -147,7 +147,7 @@ command = ["python3", "/absolute/path/to/taina-mode-tracker.py"]
 
 **Cursor** — not supported. Cursor 1.7's `beforeSubmitPrompt` hook is observe-only and ignores returned context, so reinforcement injection isn't possible today. Cursor users get prose-only enforcement.
 
-The flag file defaults to `~/.taina-active`. Override with the `TAINA_FLAG` environment variable. Each CLI's exact hook schema may evolve — if registration fails, check that CLI's hook docs against the snippets above.
+The flag file defaults to `./.taina-active` in the CLI's current working directory (typically the project root), so taina mode in one project does not leak into another. Override the path with the `TAINA_FLAG` environment variable (set it to `~/.taina-active` to restore the old global-scope behaviour). Add `.taina-active` to your `.gitignore` if you don't want the flag tracked. Each CLI's exact hook schema may evolve — if registration fails, check that CLI's hook docs against the snippets above.
 
 ---
 
@@ -155,13 +155,15 @@ The flag file defaults to `~/.taina-active`. Override with the `TAINA_FLAG` envi
 
 The skill auto-activates when the user message contains any of the phrases below (alongside dense input). Voice routing follows the message language: Chinese phrases route to 北京太奶, English phrases route to London Nan.
 
+**Strict opt-in.** The skill activates only when you explicitly assign the granny / 太奶 / Nan listener role to yourself, or invoke the slash command. Generic clarification phrases (`啥意思` / `看不懂` / `ELI5` / `in plain English` / `in simple terms` / `break it down` / `like I'm 80` …) do **not** trigger taina — they're everyday clarification requests, handled by your default AI normally. This is a deliberate change to keep taina out of your way until you actually want it.
+
 | 北京太奶 (中文) | London Nan (English) |
 |----------------|----------------------|
-| 看不懂 | ELI5 |
-| 白话讲讲 | explain like I'm 5 |
-| 通俗讲 / 讲人话 | in plain English |
-| 太奶讲讲 | speak to me like a granny |
-| 啥意思 | no jargon / in simple terms |
+| 给太奶讲 / 跟太奶讲 / 讲给太奶 | like I'm a granny |
+| 当我是太奶 / 当作太奶 / 当成太奶 | like I'm your nan |
+| 把我当太奶 / 把我当作太奶 / 把我当成太奶 | pretend I'm a granny / treat me like a granny |
+
+All trigger phrases keep the skill's direction intact (user = granny / listener, AI = explainer). Phrases that would vocate the AI as 太奶 (`太奶讲讲`, `speak to me like a granny`) are deliberately excluded — they invert the role and self-loop with the persona's address-form output.
 
 Explicit invocation:
 
@@ -215,7 +217,9 @@ Scans both persona templates for English acronyms, formulas, Greek letters, and 
 | CLI | Skill loading | Hook reinforcement |
 |-----|---------------|--------------------|
 | Claude Code | Skill directory at `~/.claude/skills/taina-explainer/`; slash command at `~/.claude/commands/taina.md` | `UserPromptSubmit` hook |
-| Codex CLI | Root `AGENTS.md` (full skill inlined) is auto-loaded as project context | `UserPromptSubmit` hook |
+| Codex CLI (project context) | Root `AGENTS.md` (full skill inlined) is auto-loaded as project context | `UserPromptSubmit` hook |
+| Codex CLI (skill install) | `skills/taina-explainer/` is a self-contained Codex skill package; install via official Codex skill installer; supports `$taina-explainer` invocation | `UserPromptSubmit` hook |
+| OpenClaw | Either repo-root `SKILL.md` (`openclaw skills install git:owner/repo@ref`) or `openclaw/taina-explainer/` (`openclaw skills install ./openclaw/taina-explainer --as taina-explainer`) | Not supported |
 | Gemini CLI | `gemini-extension.json` manifest + `GEMINI.md` import directives | `BeforeAgent` hook |
 | Cursor | Root `AGENTS.md` is read natively as project context | Not supported (CLI's pre-prompt hook is observe-only) |
 
